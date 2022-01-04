@@ -7,8 +7,28 @@ html, body {
     margin: 0px;
 }
 
+#logo {
+    background-color: #adb6e9;
+    border-left: 10px solid #7987da;
+    padding: 10px;
+    color: #000000;
+    display: flex;
+    vertical-align: middle;
+}
+
+#logo-text {
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 0px;
+    transform: rotate(-35deg);
+    font-weight: bold;
+    font-size: 14pt;
+}
+
 #header {
     background-color: #312a3f;
+    border-left: 10px solid #1e1a27;
     padding: 10px;
     color: #ffffff;
 }
