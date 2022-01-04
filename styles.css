@@ -1,5 +1,5 @@
 * {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     font-size: 10pt;
 }
 
@@ -31,6 +31,7 @@ html, body {
     border-left: 10px solid #1e1a27;
     padding: 10px;
     color: #ffffff;
+    font-weight: bold;
 }
 
 #input-file {
@@ -41,10 +42,18 @@ html, body {
     margin: 5px;
 }
 
+#work-item-list {
+    display: flex;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    bottom: 5px;
+}
+
 div.work-item {
     border: 1px solid #ccc;
     border-left: 5px solid #ccc;
-    border-radius: 3px;
+    border-radius: 5px;
     margin: 2px;
     padding: 5px;
 }
@@ -52,7 +61,8 @@ div.work-item {
 div.work-item-story {
     border: 1px solid #63ba3c;
     border-left: 5px solid #63ba3c;
-    border-radius: 3px;
+    border-radius: 5px;
+    background-color: #ffffff;
     margin: 2px;
     padding: 5px;
 }
@@ -60,7 +70,8 @@ div.work-item-story {
 div.work-item-support-task {
     border: 1px solid #4bade8;
     border-left: 5px solid #4bade8;
-    border-radius: 3px;
+    border-radius: 5px;
+    background-color: #ffffff;
     margin: 2px;
     padding: 5px;
 }
@@ -68,7 +79,8 @@ div.work-item-support-task {
 div.work-item-bug {
     border: 1px solid #e5493a;
     border-left: 5px solid #e5493a;
-    border-radius: 3px;
+    border-radius: 5px;
+    background-color: #ffffff;
     margin: 2px;
     padding: 5px;
 }
@@ -76,10 +88,14 @@ div.work-item-bug {
 div.work-item-issue {
     font-weight: bold;
     font-size: 8pt;
+    white-space: normal;
+    color: #444444;
 }
 
 div.work-item-title {
     font-weight: bold;
+    white-space: normal;
+    margin-top: 5px;
 }
 
 div.work-item-user {
@@ -90,6 +106,36 @@ div.work-item-user {
     display: flex;
 }
 
-.work-item-duration-days {
+.work-item-duration-hours {
+    color: rgb(145, 39, 0);
+    font-weight: bolder;
     padding-left: 10px;
+}
+
+.work-item-duration-days {
+    color: rgb(145, 39, 0);
+    font-weight: bolder;
+}
+
+.work-item-day {
+    padding: 5px;
+    border: 1px solid #333333;
+    border-left: 5px solid #444444;
+    border-radius: 5px;
+    background-color: #eeeeee;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    min-width: 20%;
+}
+
+.work-item-day-date-container {
+    font-size: 12pt;
+    color: #333333;
+    font-weight: bold;
+    text-align: center;
+}
+
+.work-item-day-list {
+    margin-top: 5px;
 }

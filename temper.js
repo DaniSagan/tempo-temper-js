@@ -30,6 +30,14 @@ function processFile(selector) {
             workItem.date = new Date(row.getValue("Work date"));
             workItem.hours = parseFloat(row.getValue("Hours"));
             temper.workItems.push(workItem);
+
+            var date = new Date(workItem.date.getFullYear(), workItem.date.getMonth(), workItem.date.getDate())
+            var workItemDay = temper.getWorkItemDay(user, date);
+            if(workItemDay == null) {
+                workItemDay = new WorkItemDay(date, user);
+                temper.workItemDays.push(workItemDay);
+            }
+            workItemDay.workItems.push(workItem);
         });
         console.log(temper);
         updateUsers(temper);
@@ -51,19 +59,33 @@ function onUserSelectChange(select) {
     updateWorkItems(temper, user);
 }
 
+/**
+ * 
+ * @param {Temper} temper 
+ * @param {User} user 
+ */
 function updateWorkItems(temper, user) {
     let workItems = document.getElementById("work-item-list");
     while (workItems.firstChild) {
         workItems.removeChild(workItems.lastChild);
     }
-    let items = temper.workItems.filter((element) => { return element.user.id === user.id });
-    console.log(items);
-    items.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
-        // workItems.appendChild(createWorkItemElement(item));
-        workItems.appendChild(createWorkItem(item));
+    // let items = temper.workItems.filter((element) => { return element.user.id === user.id });
+    // items.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
+    //     // workItems.appendChild(createWorkItemElement(item));
+    //     workItems.appendChild(createWorkItem(item));
+    // });
+
+    let items2 = temper.getWorkItemDaysForUser(user);
+    items2.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
+        workItems.appendChild(createWorkItemDayNode(item));
     });
 }
 
+/**
+ * 
+ * @param {string} templateId 
+ * @returns {DocumentFragment}
+ */
 function createTemplate(templateId) {
     var template = document.getElementById(templateId);
     var res = template.content.cloneNode(true);
@@ -79,14 +101,25 @@ function createWorkItem(workItem) {
     res.querySelector('.work-item').className = `work-item-${workItem.issue.type.key}`;
     res.querySelector('.work-item-issue').innerText = `${workItem.issue.key} - ${workItem.issue.summary}`;
     res.querySelector('.work-item-title').innerText = workItem.description;
-    res.querySelector('.work-item-user').innerText = workItem.user.name;
-    res.querySelector('.work-item-duration-hours').innerText = `${workItem.hours}h`;
-    res.querySelector('.work-item-duration-days').innerText = `${workItem.hours / 8}d`;
+    // res.querySelector('.work-item-user').innerText = workItem.user.name;
+    res.querySelector('.work-item-duration-hours').innerText = `(${workItem.duration})`;
+    res.querySelector('.work-item-duration-days').innerText = `${(workItem.days).toFixed(2)}d`;
     return res;
 }
 
+/**
+ * 
+ * @param {WorkItemDay} workItemDay 
+ * @returns {DocumentFragment}
+ */
 function createWorkItemDayNode(workItemDay) {
     var res = createTemplate('work-item-day-template');
+    res.querySelector('.work-item-day-date').innerText = `📅 ${workItemDay.date.toLocaleDateString(navigator.language, {weekday: 'short', day: '2-digit', month: 'short', year: 'numeric'})}`;
+    res.querySelector('.work-item-day-total-hours').innerText = `⏲️ ${workItemDay.totalHours}h`;
+    var workItemListDiv = res.querySelector('.work-item-day-list');
+    workItemDay.workItems.forEach((workItem) => {
+        workItemListDiv.appendChild(createWorkItem(workItem));
+    });
     return res;
 }
 

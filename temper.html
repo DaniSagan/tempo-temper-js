@@ -15,28 +15,31 @@
         </div>
         <div id="header">
             <div id="input-file">
-                <label for="tempoFile">Tempo file: </label>
+                <label for="tempoFile">📝 Tempo file: </label>
                 <input type="file" id="tempoFile" onchange="processFile(this)">
             </div>    
             <div id="filters">
-                <label>User: </label>
+                <label>👤 User: </label>
                 <select id="userSelect" onchange="onUserSelectChange(this)"></select>
             </div>
         </div>
         <div id="work-item-list"></div>  
         <template id="work-item-template">
             <div class="work-item">
-                <div class="work-item-user"></div>
+                <div class="work-item-duration">
+                    <div class="work-item-duration-days"></div>
+                    <div class="work-item-duration-hours"></div>
+                </div>
                 <div class="work-item-issue"></div>
                 <div class="work-item-title"></div>
-                <div class="work-item-duration">
-                    <div class="work-item-duration-hours"></div>
-                    <div class="work-item-duration-days"></div>
-                </div>
             </div>
         </template>
         <template id="work-item-day-template">
             <div class="work-item-day">
+                <div class="work-item-day-date-container">
+                    <span class="work-item-day-date"></span>
+                    <span class="work-item-day-total-hours"></span>
+                </div>
                 <div class="work-item-day-list"></div>
             </div>
         </template>  
