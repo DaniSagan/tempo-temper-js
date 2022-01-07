@@ -34,12 +34,20 @@ html, body {
     font-weight: bold;
 }
 
+#jira-server-container {
+    margin: 5px;
+}
+
 #input-file {
     margin: 5px;
 }
 
 #filters {
     margin: 5px;
+}
+
+#jira-server-address-input {
+    width: 300px;
 }
 
 #work-item-list {
@@ -85,11 +93,20 @@ div.work-item-bug {
     padding: 5px;
 }
 
-div.work-item-issue {
+.work-item-issue {
     font-weight: bold;
     font-size: 8pt;
     white-space: normal;
     color: #444444;
+    text-decoration: underline;
+}
+
+.work-item-issue-link {
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 8pt;
+    color: #333333;
+    word-wrap: break-word;
 }
 
 div.work-item-title {

@@ -139,6 +139,8 @@ class Temper {
         this.workItems = [];
         /** @type {Array<WorkItemDay>} */
         this.workItemDays = [];
+        /** @type {string} */
+        this.serverAddress = null;
     }
 
     /**

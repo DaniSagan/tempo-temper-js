@@ -59,6 +59,18 @@ function onUserSelectChange(select) {
     updateWorkItems(temper, user);
 }
 
+function onJiraServerAddressChange(input) {
+    temper.serverAddress = input.value;
+    createCookie("server", temper.serverAddress, 30);
+    // updateJiraLinks(temper);
+}
+
+function openWorkItemIssueLink(workItemIssueDiv) {
+    console.log(workItemIssueDiv.dataset.workitemissue);
+    let url = `${temper.serverAddress}/browse/${workItemIssueDiv.dataset.workitemissue}`;
+    window.open(url, '_blank').focus();
+}
+
 /**
  * 
  * @param {Temper} temper 
@@ -69,15 +81,16 @@ function updateWorkItems(temper, user) {
     while (workItems.firstChild) {
         workItems.removeChild(workItems.lastChild);
     }
-    // let items = temper.workItems.filter((element) => { return element.user.id === user.id });
-    // items.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
-    //     // workItems.appendChild(createWorkItemElement(item));
-    //     workItems.appendChild(createWorkItem(item));
-    // });
-
-    let items2 = temper.getWorkItemDaysForUser(user);
-    items2.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
+    let items = temper.getWorkItemDaysForUser(user);
+    items.slice().sort((a, b) => (a.date > b.date) ? 1 : -1).forEach((item) => {
         workItems.appendChild(createWorkItemDayNode(item));
+    });
+}
+
+function updateJiraLinks(temper) {
+    let jiraLinkNodes = document.getElementsByClassName('work-item-issue-link');
+    jiraLinkNodes.forEach((linkNode) => {
+        linkNode.setAttribute('href', `${temper.serverAddress}/browse/${workItem.issue.key}`);
     });
 }
 
@@ -100,8 +113,8 @@ function createWorkItem(workItem) {
     var res = createTemplate('work-item-template');
     res.querySelector('.work-item').className = `work-item-${workItem.issue.type.key}`;
     res.querySelector('.work-item-issue').innerText = `${workItem.issue.key} - ${workItem.issue.summary}`;
+    res.querySelector('.work-item-issue-link').dataset.workitemissue = workItem.issue.key;
     res.querySelector('.work-item-title').innerText = workItem.description;
-    // res.querySelector('.work-item-user').innerText = workItem.user.name;
     res.querySelector('.work-item-duration-hours').innerText = `(${workItem.duration})`;
     res.querySelector('.work-item-duration-days').innerText = `${(workItem.days).toFixed(2)}d`;
     return res;
@@ -123,14 +136,20 @@ function createWorkItemDayNode(workItemDay) {
     return res;
 }
 
-// function createWorkItemElement(workItem) {
-//     let div = document.createElement('div');
-//     div.className = "workItem";
-//     let nameText = document.createTextNode(workItem.user.name);
-//     nameText.className = "workItemUser";
-//     div.appendChild(nameText);
-//     let descriptionText = document.createTextNode(workItem.description);
-//     descriptionText.className = "workItemDescription";
-//     div.appendChild(descriptionText);
-//     return div;    
-// }
+function onJiraServerAddressLoad(input) {
+    let jiraServer = readCookie("server");
+    console.log(jiraServer);
+    if(jiraServer != null) {
+        input.value = jiraServer;
+        temper.serverAddress = jiraServer;
+    }
+}
+
+window.onload = (event) => {
+    let jiraServer = readCookie("server");
+    console.log(jiraServer);
+    if (jiraServer != null) {
+        document.getElementById('jira-server-address-input').value = jiraServer;
+        temper.serverAddress = jiraServer;
+    }
+}

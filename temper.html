@@ -5,6 +5,7 @@
         <title>Tempo Temper</title>
         <script type="text/javascript" src="datautils.js"></script> 
         <script type="text/javascript" src="models.js"></script> 
+        <script type="text/javascript" src="cookies.js"></script> 
         <script type="text/javascript" src="temper.js"></script> 
         <link rel="stylesheet" href="styles.css">
     </head>
@@ -14,6 +15,10 @@
             <div id="logo-text">Temper</div>
         </div>
         <div id="header">
+            <div id="jira-server-container">
+                <label for="jira-server">🌐 Jira server address: </label>
+                <input type="text" id="jira-server-address-input" onchange="onJiraServerAddressChange(this)">
+            </div>
             <div id="input-file">
                 <label for="tempoFile">📝 Tempo file: </label>
                 <input type="file" id="tempoFile" onchange="processFile(this)">
@@ -30,7 +35,8 @@
                     <div class="work-item-duration-days"></div>
                     <div class="work-item-duration-hours"></div>
                 </div>
-                <div class="work-item-issue"></div>
+                <!-- <a class="work-item-issue-link"><div class="work-item-issue"></div></a> -->
+                <div class="work-item-issue-link" data-workitemissue="" onclick="openWorkItemIssueLink(this)"><span class="work-item-issue"></span></div>
                 <div class="work-item-title"></div>
             </div>
         </template>
