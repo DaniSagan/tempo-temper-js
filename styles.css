@@ -73,6 +73,7 @@ div.work-item-story {
     background-color: #ffffff;
     margin: 2px;
     padding: 5px;
+    animation: fade-in 0.4s 1;
 }
 
 div.work-item-support-task {
@@ -82,6 +83,7 @@ div.work-item-support-task {
     background-color: #ffffff;
     margin: 2px;
     padding: 5px;
+    animation: fade-in 0.4s 1;
 }
 
 div.work-item-bug {
@@ -91,6 +93,7 @@ div.work-item-bug {
     background-color: #ffffff;
     margin: 2px;
     padding: 5px;
+    animation: fade-in 0.4s 1;
 }
 
 .work-item-issue {
@@ -155,4 +158,14 @@ div.work-item-user {
 
 .work-item-day-list {
     margin-top: 5px;
+}
+
+@keyframes fade-in { 
+    0% {
+      opacity: 0;
+    }
+  
+    100% {
+      opacity: 1;
+    }
 }

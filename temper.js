@@ -5,7 +5,7 @@ var temper = new Temper();
  * @param {Input} selector 
  */
 function processFile(selector) {
-    console.log(selector);
+    // console.log(selector);
     const file = selector.files[0];
     var table = new DataTable("tempo");
     table.loadFromFile(file, () => {
@@ -39,7 +39,7 @@ function processFile(selector) {
             }
             workItemDay.workItems.push(workItem);
         });
-        console.log(temper);
+        // console.log(temper);
         updateUsers(temper);
     });    
 }
@@ -55,8 +55,29 @@ function updateUsers(temper) {
 function onUserSelectChange(select) {
     let userSelect = document.getElementById("userSelect");
     let user = temper.getUserById(select.value);
-    console.log(user);
     updateWorkItems(temper, user);
+}
+
+/**
+ * 
+ * @param {InputElement} input 
+ */
+function onFilterChange(input) {
+    let filterText = input.value;
+    let workItems = document.getElementsByClassName('work-item');
+    for(let workItem of workItems) {
+        if(filterText === '') {
+            workItem.style.display = '';
+        } else {
+            let issueName = workItem.querySelector('.work-item-issue').innerText;
+            let issueTitle = workItem.querySelector('.work-item-title').innerText;
+            if(issueName.toLowerCase().includes(filterText.toLowerCase()) || issueTitle.toLowerCase().includes(filterText.toLowerCase())) {
+                workItem.style.display = '';
+            } else {
+                workItem.style.display = 'none';
+            }
+        }
+    }
 }
 
 function onJiraServerAddressChange(input) {
@@ -66,7 +87,7 @@ function onJiraServerAddressChange(input) {
 }
 
 function openWorkItemIssueLink(workItemIssueDiv) {
-    console.log(workItemIssueDiv.dataset.workitemissue);
+    // console.log(workItemIssueDiv.dataset.workitemissue);
     let url = `${temper.serverAddress}/browse/${workItemIssueDiv.dataset.workitemissue}`;
     window.open(url, '_blank').focus();
 }
@@ -111,7 +132,11 @@ function createTemplate(templateId) {
  */
 function createWorkItem(workItem) {
     var res = createTemplate('work-item-template');
-    res.querySelector('.work-item').className = `work-item-${workItem.issue.type.key}`;
+    let workItemDiv = res.querySelector('.work-item');
+    workItemDiv.addEventListener('click', (event) => {
+        console.log(workItemDiv);
+    });
+    res.querySelector('.work-item').classList.add(`work-item-${workItem.issue.type.key}`);
     res.querySelector('.work-item-issue').innerText = `${workItem.issue.key} - ${workItem.issue.summary}`;
     res.querySelector('.work-item-issue-link').dataset.workitemissue = workItem.issue.key;
     res.querySelector('.work-item-title').innerText = workItem.description;
